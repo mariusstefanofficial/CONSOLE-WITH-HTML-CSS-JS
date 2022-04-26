@@ -1,0 +1,281 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+    <title>Console</title>
+  </head>
+  <canvas id="c"></canvas>
+  <div class="main-container">
+    <progress id="progress" value="1" max="100"></progress>
+    <textarea id="textArea" disabled></textarea>
+    <form id="submitForm">
+      <input id="myInput" type="text" disabled="true">
+    </form>
+  </div>
+  <script src="script.js"></script>
+  </body>
+</html>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: lime;
+  }
+
+  .hidden {
+    visibility: hidden;
+  }
+
+  body {
+    background: #333;
+  }
+
+  .main-container {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    width: 80%;
+    height: 50%;
+  }
+
+  textarea {
+    padding: 4px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    resize: none;
+    box-shadow: none;
+  }
+
+  textarea[disabled] {
+    -ms-box-shadow: none;
+    box-shadow: none;
+    border: none;
+    background: #000;
+  }
+
+  input[type=text] {
+    padding: 4px;
+    width: 100%;
+    -ms-box-shadow: none;
+    box-shadow: none;
+    border: none;
+    background: #000;
+  }
+
+  input[type=text]::-ms-clear {
+    display: none;
+  }
+
+  input [contenteditable] {
+    caret-color: lime;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  progress[value] {
+    width: 98%;
+    height: 15px;
+    margin-left: 4px;
+    margin-top: 4px;
+    background-color: lime;
+  }
+
+  canvas {
+    display: block;
+  }
+</style>
+<script>
+  let nothack = false;
+  const input = document.querySelector("#myInput");
+  const submitForm = document.querySelector("#submitForm");
+  const progressBar = document.querySelector("#progress");
+  window.onload = function() {
+    goProgress();
+  };
+  const textArea = document.querySelector("#textArea");
+  textArea.value = `Connecting...`;
+  const MSO = function() {
+    progressBar.style.visibility = "visible";
+    input.disabled = true;
+    input.value = "";
+    textArea.value = `Connecting...`;
+    progressBar.interval = setInterval(increaseVal3, 20, progressBar);
+  };
+  const increaseVal3 = function(progressBar) {
+    if (progressBar.value < 100) {
+      progressBar.value = progressBar.value + 1;
+    } else {
+      progressBar.style.visibility = "hidden";
+      clearInterval(progressBar.interval);
+      progressBar.classList.add("hidden");
+      clearConsole();
+      input.disabled = false;
+      input.focus();
+      progressBar.value = 0;
+      textArea.value += "DONE!";
+    }
+  };
+  const Connect = function() {
+    nothack = true;
+    progressBar.style.visibility = "visible";
+    input.disabled = true;
+    input.value = "";
+    textArea.value = `Connecting...`;
+    progressBar.interval = setInterval(increaseVal2, 20, progressBar);
+  };
+  const increaseVal2 = function(progressBar) {
+    if (progressBar.value < 100) {
+      progressBar.value = progressBar.value + 1;
+    } else {
+      progressBar.style.visibility = "hidden";
+      clearInterval(progressBar.interval);
+      progressBar.classList.add("hidden");
+      clearConsole();
+      input.disabled = false;
+      input.focus();
+      progressBar.value = 0;
+      textArea.value += "Connected! Now, type /hack  to se what to hack!";
+    }
+  };
+  const goProgress = function() {
+    input.disabled = true;
+    input.value = "";
+    textArea.value = `Connecting...`;
+    progressBar.interval = setInterval(increaseVal, 20, progressBar);
+  };
+  const increaseVal = function(progressBar) {
+    if (progressBar.value < 100) {
+      progressBar.value = progressBar.value + 1;
+    } else {
+      progressBar.style.visibility = "hidden";
+      clearInterval(progressBar.interval);
+      progressBar.classList.add("hidden");
+      clearConsole();
+      input.disabled = false;
+      input.focus();
+      progressBar.value = 0;
+      textArea.value += "Connected! Type /list for the list of all avaiable commands.";
+    }
+  };
+  const commandListtohack = [
+  "",
+  "Things to hack:",
+  "/mso - Marius's YouTube channel",
+  ];
+
+  const commandList = [
+  "",
+  "Available commands:",
+  "help  - List all commands.",
+  "/clear - Clear screen.",
+  "cn.time.now - get curent time and date",
+  
+  "cn.time.now.time - get curent time",
+  
+  "cn.time.now.date - get curent date",
+  
+  "cn.time.now.year - get curent year",
+  
+  "cn.time.now.month - get curent month",
+  
+  "cn.time.now.minutes - get curent minutes",
+
+  "cn.time.now.hours - get curent hour",
+
+  "cn.time.now.day - get curent day",
+
+  "/connect - Connect to the server.",
+  ];
+  function Time(comm) {
+    input.value = "";
+    if (comm.replace(comm.substring(0, 8), "") == "now") {
+      var today = new Date();
+      var date = today.getFullYear() + '-' + (today.getMonth()) + '-' + today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      textArea.value += "\n" + date + "  " + time;
+    } else if (comm.replace(comm.substring(0, 8), "") == "now.date") {
+      var today = new Date();
+      var date = today.getFullYear() + '-' + (today.getMonth()) + '-' + today.getDate();
+      textArea.value += "\n" + date;
+    } else if (comm.replace(comm.substring(0, 8), "") == "now.time") {
+      var today = new Date();
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      textArea.value += "\n" + time;
+    } else if (comm.replace(comm.substring(0, 8), "") == "now.seconds") {
+      var today = new Date();
+      var date = today.getSeconds();
+      textArea.value += "\n" + date;
+    } else if (comm.replace(comm.substring(0, 8), "") == "now.day") {
+      var today = new Date();
+      var date = today.getDate();
+      textArea.value += "\n" + date;
+    } else if (comm.replace(comm.substring(0, 8), "") == "now.month") {
+      var today = new Date();
+      var date = today.getMonth();
+      textArea.value += "\n" + date;
+    } else if (comm.replace(comm.substring(0, 8), "") == "now.year") {
+      var today = new Date();
+      var date = today.getFullYear();
+      textArea.value += "\n" + date;
+    } else if (comm.replace(comm.substring(0, 8), "") == "now.minutes") {
+      var today = new Date();
+      var date = today.getMinutes();
+      textArea.value += "\n" + date;
+    } else if (comm.replace(comm.substring(0, 8), "") == "now.hours") {
+      var today = new Date();
+      var date = today.getHours();
+      textArea.value += "\n" + date;
+    } else {
+      textArea.value += "\n cn.time contine only now \n now.time \n now.date \n now.year \n now.month \n now.day \n now.minutes;\n now.hours;\n ";
+      textArea.value += "\n" + input.value;
+    }
+  }
+  const HACK = function() {
+    const arrJoin = commandListtohack.join("\n");
+    textArea.value += arrJoin;
+    input.value = "";
+  };
+  const AllCommands = function() {
+    const arrJoin = commandList.join("\n");
+    textArea.value += arrJoin;
+    input.value = "";
+  };
+  const clearConsole = function() {
+    textArea.value = "";
+    input.value = "";
+  };
+  submitForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    if (input.value === "/clear") {
+      clearConsole();
+    } else if (input.value.includes("cn.time.")) {
+      Time(input.value);
+    } else if (input.value === "help") {
+      AllCommands();
+    } else if (input.value === "/connect") {
+      Connect();
+    } else if (input.value === "/hack" && nothack == true) {
+      HACK();
+    } else if (input.value === "/mso" && nothack == true) {
+      MSO();
+    } else {
+      textArea.value += "\nERROR: Unknown command! Type 'help' for list of commands.";
+      textArea.value += "\n" + input.value;
+      input.value = "";
+    }
+    textArea.scrollTop = textArea.scrollHeight;
+  });
+  input.addEventListener("input", function(e) {
+    input.value = input.value.toLowerCase();
+  });
+</script>
